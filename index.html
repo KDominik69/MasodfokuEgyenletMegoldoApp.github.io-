@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Másodfokú Egyenletek Magyarázata</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Roboto betűtípus -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Talpatlan betűtípus */
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a; /* Sötét háttér */
+            color: #e0e0e0; /* Világos szöveg */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Minimum magasság 100% */
+        }
+
+        header {
+            background: #333; /* Sötét szürke */
+            color: #00ff00; /* Zöld szöveg */
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 4px solid #00ff00; /* Zöld alsó szegély */
+        }
+
+        main {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            flex: 1; /* Fő tartalom kitölti a rendelkezésre álló helyet */
+        }
+
+        .card {
+            background: #222; /* Sötét háttér a kártyákhoz */
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.5); /* Zöld árnyék */
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); /* Zöld árnyék, amikor a kurzor a kártya felett van */
+        }
+
+        h2 {
+            color: #00ff00; /* Zöld címek */
+            font-size: 1.8rem;
+        }
+
+        .example {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .example img {
+            max-width: 120px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.5); /* Zöld árnyék */
+            cursor: pointer; /* Kéz kurzor a képeken */
+        }
+
+        .interactive {
+            background: #333; /* Sötét szürke */
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #00ff00; /* Zöld szegély */
+        }
+
+        .interactive input {
+            width: 50px;
+            padding: 0.5rem;
+            margin: 0 0.5rem;
+            border: 1px solid #00ff00; /* Zöld szegély */
+            border-radius: 5px;
+            background: #444; /* Sötét háttér az input mezőknek */
+            color: #e0e0e0; /* Világos szöveg */
+        }
+
+        .interactive button {
+            padding: 0.5rem 1rem;
+            background: #00ff00; /* Zöld háttér */
+            color: #1a1a1a; /* Sötét szöveg */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            font-weight: bold; /* Félkövér betű */
+        }
+
+        .interactive button:hover {
+            background: #1aff1a; /* Világosabb zöld háttér hover állapotban */
+            transform: translateY(-2px); /* Kicsit felemelkedik hover állapotban */
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #333; /* Sötét szürke */
+            border: 1px solid #00ff00; /* Zöld szegély */
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #333; /* Sötét szürke */
+            color: #00ff00; /* Zöld szöveg */
+        }
+
+        .image-section {
+            text-align: center;
+        }
+
+        .image-section img {
+            max-width: 90%;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.5); /* Zöld árnyék */
+            cursor: pointer; /* Kéz kurzor a képeken */
+        }
+
+        /* Stílus a modális ablakhoz */
+        .modal {
+            display: none; /* Alapértelmezett rejtett */
+            position: fixed; /* Rögzített pozíció */
+            z-index: 1000; /* A legfelső réteg */
+            left: 0;
+            top: 0;
+            width: 100%; /* Teljes szélesség */
+            height: 100%; /* Teljes magasság */
+            background-color: rgba(0, 0, 0, 0.8); /* Fekete háttér átlátszósággal */
+            justify-content: center; /* Középre igazítás */
+            align-items: center; /* Középre igazítás */
+        }
+
+        .modal img {
+            max-width: 90%; /* Kép maximális szélessége */
+            max-height: 90%; /* Kép maximális magassága */
+            border-radius: 8px; /* Kerekített sarkok */
+        }
+
+        .close {
+            position: absolute; /* Pozicionálás */
+            top: 20px; /* Fentről */
+            right: 30px; /* Jobbról */
+            color: #fff; /* Fehér szín */
+            font-size: 30px; /* Betűméret */
+            cursor: pointer; /* Kéz kurzor */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Másodfokú Egyenletek Magyarázata</h1>
+    </header>
+
+    <main>
+        <div class="card">
+            <h2>Mi az a másodfokú egyenlet?</h2>
+            <p>A másodfokú egyenlet általános alakja:</p>
+            <p><strong>ax<sup>2</sup> + bx + c = 0</strong></p>
+            <div class="example">
+                <img src="istockphoto-1292243661-2048x2048.jpg" alt="Másodfokú egyenlet példája" onclick="openModal(this.src)">
+                <p>Ebben az a, b és c együtthatók meghatározzák az egyenlet formáját és gyökeit.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>A másodfokú egyenlet megoldóképlete</h2>
+            <p>A másodfokú egyenlet megoldásához az alábbi képletet használjuk:</p>
+            <div class="image-section">
+                <img src="formula.png" alt="Megoldóképlet" onclick="openModal(this.src)">
+            </div>
+            <p>A képlet elemei:</p>
+            <ul>
+                <li><strong>-b:</strong> Az ellentett együttható</li>
+                <li><strong>&plusmn;:</strong> Két lehetséges megoldás (pozitív és negatív ág)</li>
+                <li><strong>&radic;(b<sup>2</sup> - 4ac):</strong> A diszkrimináns gyöke</li>
+                <li><strong>2a:</strong> Az osztó (kettős szorzó)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Diszkrimináns kiszámítása</h2>
+            <p>A diszkrimináns képlete:</p>
+            <p><strong>&Delta; = b<sup>2</sup> - 4ac</strong></p>
+            <p>A diszkrimináns megmondja, hogy hány valós gyöke van az egyenletnek:</p>
+            <ul>
+                <li><strong>&Delta; > 0:</strong> Két különböző valós gyök</li>
+                <li><strong>&Delta; = 0:</strong> Egy valós gyök (kettős gyök)</li>
+                <li><strong>&Delta; < 0:</strong> Nincs valós gyök</li>
+            </ul>
+            <div class="image-section">
+                <img src="discriminant.png" alt="Diszkrimináns magyarázata" onclick="openModal(this.src)">
+            </div>
+        </div>
+
+        <div class="card interactive">
+            <h2>Próbáld ki!</h2>
+            <p>Add meg az egyenlet együtthatóit, és nézd meg a megoldást:</p>
+            <form id="quadratic-form">
+                <label>a: <input type="number" id="a" required></label>
+                <label>b: <input type="number" id="b" required></label>
+                <label>c: <input type="number" id="c" required></label>
+                <button type="button" onclick="solveEquation()">Számítás</button>
+            </form>
+            <div id="result" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="card">
+            <h2>Feladatok</h2>
+            <p>Oldd meg a következő egyenleteket:</p>
+            <ol>
+                <li><strong>x<sup>2</sup> - 5x + 6 = 0</strong></li>
+                <li><strong>2x<sup>2</sup> - 4x - 6 = 0</strong></li>
+                <li><strong>x<sup>2</sup> + 4x + 5 = 0</strong></li>
+            </ol>
+            <div class="image-section">
+                <img src="parabola_examples.png" alt="Parabolák típusai" onclick="openModal(this.src)">
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Demeter Roland, Kmetz Dominik János</p>
+    </footer>
+
+    <div class="modal" id="modal" onclick="closeModal()">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="modal-image" src="" alt="Nagyított kép">
+    </div>
+
+    <script>
+        function solveEquation() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+
+            const discriminant = b * b - 4 * a * c;
+            const resultDiv = document.getElementById('result');
+
+            if (discriminant > 0) {
+                const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>`;
+            } else if (discriminant === 0) {
+                const x = -b / (2 * a);
+                resultDiv.innerHTML = `<p>Egy valós gyök: x = ${x.toFixed(2)}</p>`;
+            } else {
+                resultDiv.innerHTML = '<p>Nincs valós gyök (komplex gyökök).</p>';
+            }
+
+            resultDiv.style.display = 'block';
+        }
+
+        function openModal(src) {
+            document.getElementById('modal-image').src = src;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
