@@ -250,24 +250,32 @@
     } else if (a === 0) {
         if (b === 0) {
             resultDiv.innerHTML = c === 0 
-                ? '<p>Végtelen sok megoldás (azonosság).</p>' 
-                : '<p>Nincs megoldás (ellentmondás).</p>';
+                ? '<p>Végtelen sok megoldás (mert minden szám jó megoldás lenne).</p>' 
+                : '<p>Nincs megoldás (mert nincs olyan szám, ami jó lenne).</p>';
         } else {
             const x = -c / b;
-            resultDiv.innerHTML = `<p>Ez egy elsőfokú egyenlet. Megoldás: x = ${x.toFixed(2)}</p>`;
+            resultDiv.innerHTML = `<p>Ez egy elsőfokú egyenlet. Egyetlen megoldás van: x = ${x.toFixed(2)}</p>
+                                   <p>Ez azért van, mert ha b ≠ 0, akkor egy egyszerű osztással megkaphatjuk x-et.</p>`;
         }
     } else {
         const discriminant = b * b - 4 * a * c;
-        
+        let explanation = '';
+
         if (discriminant > 0) {
             const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
             const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-            resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>`;
+            explanation = `<p>A diszkrimináns pozitív (${discriminant}), ezért két különböző megoldás van.</p>
+                           <p>Ez azért van, mert a parabola két helyen metszi az x-tengelyt.</p>`;
+            resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>${explanation}`;
         } else if (discriminant === 0) {
             const x = -b / (2 * a);
-            resultDiv.innerHTML = `<p>Egy valós gyök: x = ${x.toFixed(2)}</p>`;
+            explanation = `<p>A diszkrimináns nulla (${discriminant}), ezért csak egy megoldás van.</p>
+                           <p>Ez azért van, mert a parabola éppen érinti az x-tengelyt egy pontban.</p>`;
+            resultDiv.innerHTML = `<p>Egy valós gyök: x = ${x.toFixed(2)}</p>${explanation}`;
         } else {
-            resultDiv.innerHTML = '<p>Nincs valós gyök (komplex gyökök).</p>';
+            explanation = `<p>A diszkrimináns negatív (${discriminant}), ezért nincs valós megoldás.</p>
+                           <p>Ez azért van, mert a parabola nem metszi az x-tengelyt, csak fölötte vagy alatta van.</p>`;
+            resultDiv.innerHTML = `<p>Nincs valós gyök (csak komplex számokban létezik megoldás).</p>${explanation}`;
         }
     }
 
