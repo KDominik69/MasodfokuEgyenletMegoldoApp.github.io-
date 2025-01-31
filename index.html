@@ -240,26 +240,40 @@
 
     <script>
         function solveEquation() {
-            const a = parseFloat(document.getElementById('a').value);
-            const b = parseFloat(document.getElementById('b').value);
-            const c = parseFloat(document.getElementById('c').value);
+    const a = parseFloat(document.getElementById('a').value);
+    const b = parseFloat(document.getElementById('b').value);
+    const c = parseFloat(document.getElementById('c').value);
+    const resultDiv = document.getElementById('result');
 
-            const discriminant = b * b - 4 * a * c;
-            const resultDiv = document.getElementById('result');
-
-            if (discriminant > 0) {
-                const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
-                const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-                resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>`;
-            } else if (discriminant === 0) {
-                const x = -b / (2 * a);
-                resultDiv.innerHTML = `<p>Egy valós gyök: x = ${x.toFixed(2)}</p>`;
-            } else {
-                resultDiv.innerHTML = '<p>Nincs valós gyök (komplex gyökök).</p>';
-            }
-
-            resultDiv.style.display = 'block';
+    if (isNaN(a) || isNaN(b) || isNaN(c)) {
+        resultDiv.innerHTML = '<p>Kérlek, adj meg érvényes számokat!</p>';
+    } else if (a === 0) {
+        if (b === 0) {
+            resultDiv.innerHTML = c === 0 
+                ? '<p>Végtelen sok megoldás (azonosság).</p>' 
+                : '<p>Nincs megoldás (ellentmondás).</p>';
+        } else {
+            const x = -c / b;
+            resultDiv.innerHTML = `<p>Ez egy elsőfokú egyenlet. Megoldás: x = ${x.toFixed(2)}</p>`;
         }
+    } else {
+        const discriminant = b * b - 4 * a * c;
+        
+        if (discriminant > 0) {
+            const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+            const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+            resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>`;
+        } else if (discriminant === 0) {
+            const x = -b / (2 * a);
+            resultDiv.innerHTML = `<p>Egy valós gyök: x = ${x.toFixed(2)}</p>`;
+        } else {
+            resultDiv.innerHTML = '<p>Nincs valós gyök (komplex gyökök).</p>';
+        }
+    }
+
+    resultDiv.style.display = 'block';
+}
+
 
         function openModal(src) {
             document.getElementById('modal-image').src = src;
