@@ -24,6 +24,40 @@
             padding: 1.5rem;
             text-align: center;
             border-bottom: 4px solid #00ff00; /* Zöld alsó szegély */
+            position: relative; /* Pozicionálás a menü miatt */
+        }
+
+        .menu-toggle {
+            display: none; /* Alapértelmezett rejtett */
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #00ff00;
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+
+        .nav {
+            display: none; /* Alapértelmezett rejtett */
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #333;
+            width: 200px;
+            border: 1px solid #00ff00;
+            z-index: 1000;
+        }
+
+        .nav a {
+            color: #00ff00;
+            padding: 1rem;
+            text-decoration: none;
+            border-bottom: 1px solid #444;
+        }
+
+        .nav a:hover {
+            background: #444; /* Hover háttér */
         }
 
         main {
@@ -154,16 +188,47 @@
             font-size: 30px; /* Betűméret */
             cursor: pointer; /* Kéz kurzor */
         }
+
+        /* Mobil nézet */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block; /* Mobilon megjelenik a hamburger ikon */
+            }
+
+            .nav {
+                display: none; /* Alapértelmezett rejtett */
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #333;
+                width: 200px;
+                border: 1px solid #00ff00;
+                z-index: 1000;
+            }
+
+            .nav.active {
+                display: flex; /* Ha aktív, megjelenik */
+            }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Másodfokú Egyenletek Magyarázata</h1>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <nav class="nav" id="nav">
+            <a href="#mi-az-a-masodfoku-egyenlet">Mi az a másodfokú egyenlet?</a>
+            <a href="#a-masodfoku-egyenlet-megoldokeplete">A másodfokú egyenlet megoldóképlete</a>
+            <a href="#diszkiminans-kiszamitas">Diszkrimináns kiszámítása</a>
+            <a href="#probald-ki">Próbáld ki!</a>
+            <a href="#feladatok">Feladatok</a>
+        </nav>
     </header>
 
     <main>
-        <div class="card">
+        <div class="card" id="mi-az-a-masodfoku-egyenlet">
             <h2>Mi az a másodfokú egyenlet?</h2>
             <p>A másodfokú egyenlet általános alakja:</p>
             <p><strong>ax<sup>2</sup> + bx + c = 0</strong></p>
@@ -173,7 +238,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="a-masodfoku-egyenlet-megoldokeplete">
             <h2>A másodfokú egyenlet megoldóképlete</h2>
             <p>A másodfokú egyenlet megoldásához az alábbi képletet használjuk:</p>
             <div class="image-section">
@@ -188,7 +253,7 @@
             </ul>
         </div>
 
-        <div class="card">
+        <div class="card" id="diszkiminans-kiszamitas">
             <h2>Diszkrimináns kiszámítása</h2>
             <p>A diszkrimináns képlete:</p>
             <p><strong>&Delta; = b<sup>2</sup> - 4ac</strong></p>
@@ -203,7 +268,7 @@
             </div>
         </div>
 
-        <div class="card interactive">
+        <div class="card interactive" id="probald-ki">
             <h2>Próbáld ki!</h2>
             <p>Add meg az egyenlet együtthatóit, és nézd meg a megoldást:</p>
             <form id="quadratic-form">
@@ -215,7 +280,7 @@
             <div id="result" class="result" style="display: none;"></div>
         </div>
 
-        <div class="card">
+        <div class="card" id="feladatok">
             <h2>Feladatok</h2>
             <p>Oldd meg a következő egyenleteket:</p>
             <ol>
@@ -230,67 +295,46 @@
     </main>
 
     <footer>
-        <p>&copy; Demeter Roland, Kmetz Dominik János</p>
+        <p>&copy; <a href="https://sites.google.com/view/ita-dr10b/projekt" target="_blank">Demeter Roland</a>, <a href="https://sites.google.com/view/ita-kdj10b/projekt" target="_blank">Kmetz Dominik János</a></p>
     </footer>
-
+    
     <div class="modal" id="modal" onclick="closeModal()">
         <span class="close" onclick="closeModal()">&times;</span>
         <img id="modal-image" src="" alt="Nagyított kép">
     </div>
 
     <script>
+        function toggleMenu() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('active'); // Toggle the active class to show/hide the menu
+        }
+
         function solveEquation() {
-    const a = parseFloat(document.getElementById('a').value);
-    const b = parseFloat(document.getElementById('b').value);
-    const c = parseFloat(document.getElementById('c').value);
-    const resultDiv = document.getElementById('result');
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+            const resultDiv = document.getElementById('result');
 
-    if (isNaN(a) || isNaN(b) || isNaN(c)) {
-        resultDiv.innerHTML = '<p>Kérlek, adj meg érvényes számokat!</p>';
-    } else if (a === 0) {
-        if (b === 0) {
-            resultDiv.innerHTML = c === 0 
-                ? '<p>Végtelen sok megoldás (mert minden szám jó megoldás lenne).</p>' 
-                : '<p>Nincs megoldás (mert nincs olyan szám, ami jó lenne).</p>';
-        } else {
-            const x = -c / b;
-            resultDiv.innerHTML = `<p>Ez egy elsőfokú egyenlet. Egyetlen megoldás van: x = ${x.toFixed(2)}</p>
-                                   <p>Ez azért van, mert ha b ≠ 0, akkor egy egyszerű osztással megkaphatjuk x-et.</p>`;
-        }
-    } else {
-        const discriminant = b * b - 4 * a * c;
-        let explanation = '';
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                resultDiv.innerHTML = '<p>Kérlek, adj meg érvényes számokat!</p>';
+            } else if (a === 0) {
+                if (b === 0) {
+                    resultDiv.innerHTML = c === 0 
+                        ? '<p>Végtelen sok megoldás (mert minden szám jó megoldás lenne).</p>' 
+                        : '<p>Nincs megoldás (mert nincs olyan szám, ami jó lenne).</p>';
+                } else {
+                    const x = -c / b;
+                    resultDiv.innerHTML = `<p>Ez egy elsőfokú egyenlet. Egyetlen megoldás van: x = ${x.toFixed(2)}</p>
+                                           <p>Ez azért van, mert ha b ≠ 0, akkor egy egyszerű osztással megkaphatjuk x-et.</p>`;
+                }
+            } else {
+                const discriminant = b * b - 4 * a * c;
+                let explanation = '';
 
-        if (discriminant > 0) {
-            const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
-            const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-            explanation = `<p>A diszkrimináns pozitív (${discriminant}), ezért két különböző megoldás van.</p>
-                           <p>Ez azért van, mert a parabola két helyen metszi az x-tengelyt.</p>`;
-            resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>${explanation}`;
-        } else if (discriminant === 0) {
-            const x = -b / (2 * a);
-            explanation = `<p>A diszkrimináns nulla (${discriminant}), ezért csak egy megoldás van.</p>
-                           <p>Ez azt jelenti, hogy a parabola érinti az x-tengelyt, de nem metszi át.</p>`;
-            resultDiv.innerHTML = `<p>Egy valós gyök: x = ${x.toFixed(2)}</p>${explanation}`;
-        } else {
-            explanation = `<p>A diszkrimináns negatív (${discriminant}), ezért nincs valós megoldás.</p>
-                           <p>Ez azért van, mert a parabola nem metszi az x-tengelyt, így a gyökök csak komplex számokban léteznek.</p>`;
-            resultDiv.innerHTML = `<p>Nincs valós gyök (csak komplex számokban létezik megoldás).</p>${explanation}`;
-        }
-    }
-
-    resultDiv.style.display = 'block';
-}
-
-
-        function openModal(src) {
-            document.getElementById('modal-image').src = src;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-    </script>
-</body>
-</html>
+                if (discriminant > 0) {
+                    const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                    const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                    explanation = `<p>A diszkrimináns pozitív (${discriminant}), ezért két különböző megoldás van.</p>
+                                   <p>Ez azért van, mert a parabola két helyen metszi az x-tengelyt.</p>`;
+                    resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>${explanation}`;
+                } else if (discriminant === 
