@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -249,19 +250,19 @@
                 <li><strong>-b:</strong> Az ellentett együttható</li>
                 <li><strong>&plusmn;:</strong> Két lehetséges megoldás (pozitív és negatív ág)</li>
                 <li><strong>&radic;(b<sup>2</sup> - 4ac):</strong> A diszkrimináns gyöke</li>
-                <li><strong>2a:</strong> Az osztó (kettős szorzó)</li>
+                <li><strong>2a:</strong> Az osztó (kétszeres)</li>
             </ul>
         </div>
 
         <div class="card" id="diszkiminans-kiszamitas">
             <h2>Diszkrimináns kiszámítása</h2>
             <p>A diszkrimináns képlete:</p>
-            <p><strong>&Delta; = b<sup>2</sup> - 4ac</strong></p>
+            <p><strong>D = b<sup>2</sup> - 4ac</strong></p>
             <p>A diszkrimináns megmondja, hogy hány valós gyöke van az egyenletnek:</p>
             <ul>
-                <li><strong>&Delta; > 0:</strong> Két különböző valós gyök</li>
-                <li><strong>&Delta; = 0:</strong> Egy valós gyök (kettős gyök)</li>
-                <li><strong>&Delta; < 0:</strong> Nincs valós gyök</li>
+                <li><strong>D > 0:</strong> Két különböző valós gyök</li>
+                <li><strong>D = 0:</strong> Egy valós gyök (kettős gyök)</li>
+                <li><strong>D < 0:</strong> Nincs valós gyök</li>
             </ul>
             <div class="image-section">
                 <img src="discriminant.png" alt="Diszkrimináns magyarázata" onclick="openModal(this.src)">
@@ -337,4 +338,5 @@
                     explanation = `<p>A diszkrimináns pozitív (${discriminant}), ezért két különböző megoldás van.</p>
                                    <p>Ez azért van, mert a parabola két helyen metszi az x-tengelyt.</p>`;
                     resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>${explanation}`;
-                } else if (discriminant === 
+                } else if (discriminant === 0) {
+                    const 
