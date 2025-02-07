@@ -212,6 +212,9 @@
                 display: flex; /* Ha aktív, megjelenik */
             }
         }
+        .ahh{
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -273,10 +276,10 @@
             <h2>Próbáld ki!</h2>
             <p>Add meg az egyenlet együtthatóit, és nézd meg a megoldást:</p>
             <form id="quadratic-form">
-                <label>a: <input type="number" id="a" required></label>
-                <label>b: <input type="number" id="b" required></label>
-                <label>c: <input type="number" id="c" required></label>
-                <button type="button" onclick="solveEquation()">Számítás</button>
+                <label>a: <input type="number" id="a" required></label><br>
+                <label>b: <input type="number" id="b" required></label><br>
+                <label>c: <input type="number" id="c" required></label><br>
+                <button type="button" onclick="solveEquation()" class="ahh">Számítás  </button>
             </form>
             <div id="result" class="result" style="display: none;"></div>
         </div>
@@ -337,6 +340,4 @@
                     const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
                     explanation = `<p>A diszkrimináns pozitív (${discriminant}), ezért két különböző megoldás van.</p>
                                    <p>Ez azért van, mert a parabola két helyen metszi az x-tengelyt.</p>`;
-                    resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>${explanation}`;
-                } else if (discriminant === 0) {
-                    const 
+                    resultDiv.innerHTML = `<p>Két különböző valós gyök: x<sub>1</sub> = ${x1.toFixed(2)}, x<sub>2</sub> = ${x2.toFixed(2)}</p>
